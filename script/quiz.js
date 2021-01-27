@@ -52,6 +52,7 @@ toggleActive = ()=>{
 }
 
 previous = ()=>{
+    document.getElementById('next').innerText = 'Next Question'
     if(question_number===0){
 
     }else{
@@ -64,6 +65,7 @@ previous = ()=>{
 next = ()=>{
     if(question_number==questions.length-1){
         document.getElementById('next').innerText = 'Submit'
+        submitQuiz()
     }
     else{
         question_number++
@@ -95,4 +97,16 @@ getTotalScore = ()=>{
 changeColor = (element, background_color, text_color)=>{
     element.style.backgroundColor = background_color
     element.style.color = text_color
+}
+
+submitQuiz = ()=>{
+    getTotalScore()
+    let container = document.getElementById('quiz-question')
+    document.getElementsByClassName('buttons')[0].style.display = 'none'
+    let content = `
+    <div id='score-card'>
+    <img src="images/medal.svg" alt="" width="100px" height="100px">
+    <h1 id='score'>Your Score <span>${score}</span></h1>
+    </div>`
+    container.innerHTML = content
 }

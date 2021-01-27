@@ -109,3 +109,15 @@
     color: #ed8936;
     display: inline;
   }
+
+  #score-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  #score{
+    color:mediumseagreen
+  }

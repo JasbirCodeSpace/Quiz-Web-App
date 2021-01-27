@@ -11,7 +11,10 @@
   <div class="dashboard">
     <div id="quiz">
       <div id="quiz-header">
-        <div id="quiz-greet"></div>
+        <div id="quiz-greet">
+          <h1>Covid-19 Quiz</h1>
+          <img src="images/covid-19.svg" alt="" width="50px" height="50px">
+        </div>
         <div id="quiz-time"></div>
       </div>
       <div id="quiz-body">
@@ -19,8 +22,8 @@
 
         </div>
         <div class="buttons">
-          <button class="button previous" onclick="previous()">Previous Question</button>
-          <button class="button next" onclick="next()">Next Question</button>
+          <button id="previous" class="button previous" onclick="previous()">Previous Question</button>
+          <button id="next" class="button next" onclick="next()">Next Question</button>
         </div>
       </div>
     </div>

@@ -81,7 +81,7 @@
     transition: 0.4s all;
   }
   
-  .option:hover {
+  /* .option:hover {
     cursor: pointer;
     border: 2px solid #ed8936;
     color: #ed8936;
@@ -89,4 +89,23 @@
   .option.active {
     background-color: #ed8936;
     color: #fff;
+  } */
+
+  /* .green{
+    background-color: #00e600;
+  }
+
+  .red{
+    background-color: #ff0000;
+  } */
+
+  #quiz-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #quiz-greet > h1{
+    color: #ed8936;
+    display: inline;
   }

@@ -1,11 +1,25 @@
-let question_number = 0;
-let score = 0;
-let responses = new Array(10);
-
+let question_number = 0
+let score = 0
+let responses = new Array(10)
+let user_name = ""
 window.onload = ()=>{
-    displayQuestion(question_number)
+    document.getElementsByClassName('buttons')[0].style.display = 'none'
+    takeUserName()
+    shuffleQuestions()
 }
 
+startQuiz = (e)=>{
+    e.preventDefault()
+    let user = document.getElementById('user-name').value
+    if(user!==null && user!==''){
+        user_name = user.trim()
+        document.getElementsByClassName('buttons')[0].style.display = 'flex'
+        displayQuestion(question_number)
+    }else{
+        alert('Enter your name before starting quiz')
+    }
+
+}
 displayQuestion = (number)=>{
     let container = document.getElementById('quiz-question')
     let question = questions[number]
@@ -106,7 +120,29 @@ submitQuiz = ()=>{
     let content = `
     <div id='score-card'>
     <img src="images/medal.svg" alt="" width="100px" height="100px">
+    <h1>Well done! <span>${user_name}</span></h1>
     <h1 id='score'>Your Score <span>${score}</span></h1>
     </div>`
     container.innerHTML = content
+}
+
+takeUserName = ()=>{
+    let container = document.getElementById('quiz-question')
+    content = `
+    <form class="user-form" name="user-form" onsubmit="startQuiz(event)">
+        <input type="text" id="user-name" name="user-name" placeholder="Enter your name ...">
+        <button class='button'>Start Quiz</button>
+    </form>
+    `   
+    container.innerHTML = content
+}
+
+shuffleQuestions = ()=>{
+    for (let i = questions.length-1; i >0; i--) {
+        const j = Math.floor(Math.random()*(i+1))
+        let temp = questions[j]
+        questions[j] = questions[i]
+        questions[i] = temp
+        
+    }
 }

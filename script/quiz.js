@@ -24,6 +24,7 @@ displayQuestion = (number)=>{
             changeColor(checked_list_item,'#00e600', '#fff' )
         }else{
             changeColor(checked_list_item,'#ff0000', '#fff' )
+            changeColor(list_items[questions[question_number].answer-1], '#00e600', '#fff')
         }
     }
     toggleActive()
@@ -33,6 +34,7 @@ toggleActive = ()=>{
     let options = document.querySelectorAll('li.option')
     options.forEach((option,index) => {
         option.onclick = ()=>{
+            if(responses[question_number])return
             [].forEach.call(options, function (el) {
                 changeColor(el, '#fff', '#000')
                 el.classList.remove('active')
@@ -44,6 +46,7 @@ toggleActive = ()=>{
             }
             else{
                 changeColor(option, '#ff0000', '#fff')
+                changeColor(options[questions[question_number].answer-1], '#00e600', '#fff')
             }
             
         }

@@ -2,6 +2,10 @@ let question_number = 0
 let score = 0
 let responses = new Array(10)
 let user_name = ""
+let quiz_time = 2*60
+let time_taken = 0
+let timer = quiz_time
+
 window.onload = ()=>{
     document.getElementsByClassName('buttons')[0].style.display = 'none'
     takeUserName()
@@ -15,6 +19,7 @@ startQuiz = (e)=>{
         user_name = user.trim()
         document.getElementsByClassName('buttons')[0].style.display = 'flex'
         displayQuestion(question_number)
+        startTimer(quiz_time,"time")
     }else{
         alert('Enter your name before starting quiz')
     }
@@ -38,6 +43,7 @@ displayQuestion = (number)=>{
             changeColor(checked_list_item,'#00e600', '#fff' )
         }else{
             changeColor(checked_list_item,'#ff0000', '#fff' )
+            changeColor(list_items[questions[question_number].answer-1], '#00e600', '#fff')
         }
     }
     toggleActive()
@@ -47,6 +53,7 @@ toggleActive = ()=>{
     let options = document.querySelectorAll('li.option')
     options.forEach((option,index) => {
         option.onclick = ()=>{
+            if(responses[question_number])return
             [].forEach.call(options, function (el) {
                 changeColor(el, '#fff', '#000')
                 el.classList.remove('active')
@@ -58,6 +65,7 @@ toggleActive = ()=>{
             }
             else{
                 changeColor(option, '#ff0000', '#fff')
+                changeColor(options[questions[question_number].answer-1], '#00e600', '#fff')
             }
             
         }
@@ -101,6 +109,7 @@ checkResponse = (question, index)=>{
 }
 
 getTotalScore = ()=>{
+    score = 0
     questions.forEach((question, index)=> {
         if(question.answer === responses[index])
             score++
@@ -114,14 +123,26 @@ changeColor = (element, background_color, text_color)=>{
 }
 
 submitQuiz = ()=>{
+    time_taken = quiz_time - timer
+    let minutes = parseInt(time_taken / 60, 10)
+    let seconds = parseInt(time_taken % 60, 10)
     getTotalScore()
+    setHighScore()
+    let high_scorer = localStorage.getItem('quiz_highscorer')
+    let high_score = localStorage.getItem('quiz_highscore')
     let container = document.getElementById('quiz-question')
     document.getElementsByClassName('buttons')[0].style.display = 'none'
+    document.getElementById('quiz-time').style.display = 'none'
     let content = `
     <div id='score-card'>
     <img src="images/medal.svg" alt="" width="100px" height="100px">
-    <h1>Well done! <span>${user_name}</span></h1>
-    <h1 id='score'>Your Score <span>${score}</span></h1>
+    <h2>Well done! <span>${user_name}</span></h2>
+    <h2 id='score'>Your Score <span>${score}/10</span></h2>
+    <h3 id='time_taken'>Time taken <span>${minutes} min ${seconds} sec</span></h3>
+    <div id='high-score'>
+    <h2>High Score: <span>${high_score}</span></h2>
+    <h2>User: <span>${high_scorer}</span></h2>
+    </div>
     </div>`
     container.innerHTML = content
 }
@@ -145,4 +166,39 @@ shuffleQuestions = ()=>{
         questions[i] = temp
         
     }
+}
+
+startTimer = (duration, id)=>{
+    let minutes, seconds
+    let element = document.getElementById(id)
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10)
+
+        minutes = minutes < 10 ? "0" + minutes : minutes
+        seconds = seconds < 10 ? "0" + seconds : seconds
+
+        element.textContent = minutes + ":" + seconds
+        if (--timer < 0) {
+            timer = 0
+           submitQuiz()
+        }
+    }, 1000)
+}
+
+setHighScore = ()=>{
+let score = getTotalScore()
+let highscore = localStorage.getItem("quiz_highscore")
+let user = localStorage.getItem("quiz_highscorer")
+
+if(highscore !== null){
+    if (score > highscore) {
+        localStorage.setItem("quiz_highscore", score)  
+        localStorage.setItem("quiz_highscorer", user_name)  
+    }
+}
+else{
+    localStorage.setItem("quiz_highscore", score)
+    localStorage.setItem("quiz_highscorer", user_name) 
+}
 }

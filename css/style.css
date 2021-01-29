@@ -165,3 +165,17 @@
   transform: translateY(-5px);
   cursor: pointer;
 }
+
+#time {
+  height: 100%;
+  width: 100px;
+  background-color:#ed8936;
+  color: #fff;
+}
+
+#high-score{
+  color:mediumseagreen;
+  border: 2px solid #ed8936;
+  padding: 10px;
+  border-spacing: 20px;
+}
